@@ -1,0 +1,14 @@
+server:
+  port: 9766
+spring:
+  application:
+    name: user1
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9761/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
