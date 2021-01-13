@@ -19,22 +19,41 @@ zuul:
     socket-timeout-millis: 60000
     connect-timeout-millis: 10000
 
+  # 配置禁用的过滤器
+  PreLogFilter:
+    pre:
+      disable: true
+
+  # 设置为true重定向是会添加host请求头
+  add-host-header: true
+
+  # 全局敏感头，配置要过滤的敏感请求头信息。为空表示不过滤请求headers，这样在路由到其它服务时，cookies等信息也会传递过去
+  sensitive-headers:
+
+  # 给网关路由添加前缀
+  prefix: /auction
+
   # 关闭默认路由配置
-  ignored-services: user-service,order-service
+#  ignored-services: product-service,order-service
 
   # 配置自定义路由
   routes:
-    # 第一种写法 访问 /myProduct/product/list 映射到 /product/product/list
+    # 第一种写法 访问 /bid/test/test1 映射到 /user-service/test/test1
     # 唯一标记
-    aaa:
-    #      path: /myProduct/**
-    #      serviceId: product
-    # 针对此应用设置不过滤敏感头（默认过滤Cookie, Set-Cookie, Authorization），即应用接收所有头
+#    aaa:
+#      path: /bid/**
+#      serviceId: user-service
+
+    # 针对此应用设置不过滤敏感头（默认过滤Cookie, Set-Cookie, Authorization），为空即应用接收所有头
     # sensitiveHeaders:
 
-    # 第二种简洁写法 访问 /myProduct/product/list 映射到 /product/product/list
-    # 服务ID: 访问路径规则
-    #    product: /myProduct/**
+    # 第二种简洁写法 访问 /bid/test/test1 映射到 /user-service/test/test1
+    # 只有一条路由规则时可以写成 ${服务ID}: ${访问路径规则} 形式，如下：
+#    user-service: /bid/**
+
+    # 有多条路由规则时
+    user-service:
+      path: /bid/**
 
     # 禁止不需要暴露的路由,排除某些路由
     #  ignored-patterns:
@@ -43,5 +62,3 @@ zuul:
     # 可使用通配符代替上面两个url
   #    - /**/product/listForOrder
 
-  # 全局敏感头,所有服务都可传递cookie，即不过滤请求headers，这样在路由到其它服务时，cookies才会传递过去
-#  sensitive-headers:
