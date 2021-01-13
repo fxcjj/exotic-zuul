@@ -170,11 +170,5 @@ zuul:
 
 
 
-
-
-
-zuul:
-  # 配置超时
-  host:
-    socket-timeout-millis: 60000
-    connect-timeout-millis: 10000
+Reference
+https://blog.csdn.net/ThinkWon/article/details/103738851
